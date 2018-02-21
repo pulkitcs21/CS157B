@@ -16,41 +16,43 @@ public class Table {
     // Function to create the three table provided
     public void createtable() {
         // Creating table card_Type 
-        String card_type = "DROP TABLE IF EXISTS card_type;" + 
-        		"CREATE TABLE card_type (" + 
-        		"  card_type_id int(3) unsigned NOT NULL AUTO_INCREMENT," + 
-        		"  card_type_name varchar(255) NOT NULL," + 
+        String card_type = /*"DROP TABLE IF EXISTS card_type;" + */
+        		" CREATE TABLE if not exists card_type (" + 
+        		"  card_type_id int(11) unsigned NOT NULL AUTO_INCREMENT, " + 
+        		"  card_type_name varchar(255) NOT NULL, " + 
         		"  PRIMARY KEY (card_type_id))";
         // Creating table Membership type
-        String credit_debit = "DROP TABLE IF EXISTS credit_debit;" +
-        		"CREATE TABLE credit_debit (" + 
-        		"   payment_id  int(4) unsigned NOT NULL, " + 
+        String credit_debit = /*"DROP TABLE IF EXISTS credit_debit;" +*/
+        		"CREATE TABLE if not exists credit_debit (" + 
+        		"   payment_id  int(11) unsigned NOT NULL AUTO_INCREMENT, " + 
         		"   name_on_card  varchar(255) NOT NULL , " + 
         		"   card_number  varchar(17) NOT NULL , " + 
         		"   exp_date  char(5) NOT NULL, " + 
         		"   cvv  char(3) NOT NULL, " + 
         		"   card_type_id  int(3) unsigned NOT NULL, " + 
-        		"  KEY  card_type_id  ( card_type_id ), " + 
-        		"  CONSTRAINT  card_type_id  FOREIGN KEY ( card_type_id ) REFERENCES  card_type  ( card_type_id ) ON DELETE CASCADE ON UPDATE CASCADE )";
+        		"   PRIMARY KEY (card_type_id), " + 
+        		"  KEY  card_type_id  ( payment_id ), " + 
+        		"  CONSTRAINT  card_type_id  FOREIGN KEY ( card_type_id ) "
+        			+ "REFERENCES  card_type  ( card_type_id ) ON DELETE CASCADE ON UPDATE CASCADE )";
         
-        String type= "DROP TABLE IF EXISTS   type  ; " +
-        		"CREATE TABLE   type   ( " + 
-        		"    type_id   int(4) unsigned NOT NULL AUTO_INCREMENT, " + 
+        String type= /*"DROP TABLE IF EXISTS   type  ; " +*/
+        		"CREATE TABLE if not exists type   ( " + 
+        		"    type_id   int(11) unsigned NOT NULL AUTO_INCREMENT, " + 
         		"    type_name   varchar(255) NOT NULL, " + 
         		"  PRIMARY KEY (  type_id  ))";
         
         // Creating table brand
-        String brand = "DROP TABLE IF EXISTS brand;" + 
-        		"CREATE TABLE brand (" + 
-        		"  brandId int(4) unsigned NOT NULL AUTO_INCREMENT," + 
+        String brand = /*"DROP TABLE IF EXISTS brand;" + */
+        		"CREATE TABLE if not exists brand (" + 
+        		"  brand_id int(11) unsigned NOT NULL AUTO_INCREMENT," + 
         		"  brand_name varchar(255) NOT NULL," + 
-        		"  PRIMARY KEY (brandId))";
+        		"  PRIMARY KEY (brand_id))";
         
-        String product= "DROP TABLE IF EXISTS  product ; " + 
-        		"CREATE TABLE  product  ( " + 
-        		"   product_id  int(4) unsigned NOT NULL AUTO_INCREMENT, " + 
-        		"   type_id  int(4) unsigned NOT NULL, " + 
-        		"   brand_id  int(4) unsigned NOT NULL, " + 
+        String product= /*"DROP TABLE IF EXISTS  product ; " + */
+        		"CREATE TABLE if not exists product  ( " + 
+        		"   product_id  int(11) unsigned NOT NULL AUTO_INCREMENT, " + 
+        		"   type_id   int(11) unsigned NOT NULL, " + 
+        		"   brand_id  int(11) unsigned NOT NULL, " + 
         		"   product_name  varchar(255) NOT NULL, " + 
         		"   product_price  float NOT NULL, " + 
         		"   product_description  text, " + 
@@ -62,9 +64,9 @@ public class Table {
         		"  CONSTRAINT  type_id  FOREIGN KEY ( type_id ) REFERENCES  type  ( type_id ) ON DELETE CASCADE ON UPDATE CASCADE)";
        
         
-        String user= "DROP TABLE IF EXISTS  user ; " + 
-        		"CREATE TABLE  user  ( " + 
-        		"   user_id  int(4) unsigned NOT NULL AUTO_INCREMENT, " + 
+        String user= /*"DROP TABLE IF EXISTS  user ; " + */
+        		"CREATE TABLE if not exists user  ( " + 
+        		"   user_id  int(11) unsigned NOT NULL AUTO_INCREMENT, " + 
         		"   username  char(16) NOT NULL , " + 
         		"   password  char(16) NOT NULL , " + 
         		"   email  varchar(254), " + 
@@ -73,24 +75,35 @@ public class Table {
         		"   deliveryAddress  varchar(200), " + 
         		"  PRIMARY KEY ( user_id )) ";
         
-        String order= "DROP TABLE IF EXISTS  order ; " + 
-        		" " + 
-        		"CREATE TABLE  order  ( " + 
-        		"   order_id  int(4) unsigned NOT NULL AUTO_INCREMENT, " + 
-        		"   order_price  float NOT NULL, " + 
+        String user_payment="CREATE TABLE if not exists  user_payment ( " + 
+        		"   payment_id  int(11) unsigned NOT NULL, " + 
         		"   user_id  int(11) unsigned NOT NULL, " + 
+        		"  KEY  payment_id_user_payment  ( payment_id ), " + 
+        		"  CONSTRAINT  payment_id_user_payment  FOREIGN KEY ( payment_id ) "
+        				+ "REFERENCES  credit_debit  ( payment_id ) ON DELETE CASCADE ON UPDATE CASCADE, "+
+        		
+        		"  KEY  user_id_user_payment  ( user_id ), " + 
+        		"  CONSTRAINT  user_id_user_payment  FOREIGN KEY ( user_id ) "
+        				+ "REFERENCES  user  ( user_id ) ON DELETE CASCADE ON UPDATE CASCADE )";
+        
+        String order= /* "DROP TABLE IF EXISTS  order ; " + */
+        		"CREATE TABLE if not exists  `order` ( " + 
+        		"   order_id  int(11) unsigned NOT NULL AUTO_INCREMENT, " + 
+        		"   order_price float NOT NULL, " + 
+        		"   user_id  int(11) unsigned NOT NULL, " + 
+        		"   order_status  varchar(20) NOT NULL DEFAULT 'Pending', " + 
         		"  PRIMARY KEY ( order_id ), " + 
         		"  KEY  user_id_order  ( user_id ), " + 
         		"  CONSTRAINT  user_id_order  FOREIGN KEY ( user_id ) REFERENCES  user  ( user_id ) ON DELETE CASCADE ON UPDATE CASCADE )"; 
         
-        String shoppingCart = "DROP TABLE IF EXISTS  shopping_cart ; " +
-        		"CREATE TABLE  shopping_cart  ( " + 
+        String shoppingCart = /*"DROP TABLE IF EXISTS  shopping_cart ; " +*/
+        		"CREATE TABLE if not exists shopping_cart  ( " + 
         		"   order_id  int(11) unsigned NOT NULL, " + 
         		"   product_id  int(11) unsigned NOT NULL, " + 
         		"   amount  int(11) NOT NULL, " + 
         		"  KEY  order_id_shopping_cart  ( order_id ), " + 
         		"  KEY  product_id_shopping_cart  ( product_id ), " + 
-        		"  CONSTRAINT  order_id_shopping_cart  FOREIGN KEY ( order_id ) REFERENCES  order  ( order_id ) ON DELETE CASCADE ON UPDATE CASCADE, " + 
+        		"  CONSTRAINT  order_id_shopping_cart  FOREIGN KEY ( order_id ) REFERENCES  `order`  ( order_id ) ON DELETE CASCADE ON UPDATE CASCADE, " + 
         		"  CONSTRAINT  product_id_shopping_cart  FOREIGN KEY ( product_id ) REFERENCES  product  ( product_id ) ON DELETE CASCADE ON UPDATE CASCADE) ";
         try {
             // Executes the given tables to add tables to Database
@@ -100,6 +113,7 @@ public class Table {
             stmt.executeUpdate(type);
             stmt.executeUpdate(product);
             stmt.executeUpdate(user);
+            stmt.executeUpdate(user_payment);
             stmt.executeUpdate(order);
             stmt.executeUpdate(shoppingCart);
             
