@@ -88,7 +88,7 @@ public class Table {
         
         String order= /* "DROP TABLE IF EXISTS  order ; " + */
         		"CREATE TABLE if not exists  `order` ( " + 
-        		"   order_id  int(4) unsigned NOT NULL AUTO_INCREMENT, " + 
+        		"   order_id  int(11) unsigned NOT NULL AUTO_INCREMENT, " + 
         		"   order_price float NOT NULL, " + 
         		"   user_id  int(11) unsigned NOT NULL, " + 
         		"   order_status  varchar(20) NOT NULL DEFAULT 'Pending', " + 
