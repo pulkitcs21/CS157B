@@ -16,6 +16,9 @@ public class Table {
     // Function to create the three table provided
     public void createtable() {
         // Creating table card_Type 
+    	String drop = "DROP DATABASE 157b;";
+    	String database = "CREATE DATABASE 157b;";
+    	String use = "use 157b;";
         String card_type = /*"DROP TABLE IF EXISTS card_type;" + */
         		" CREATE TABLE if not exists card_type (" + 
         		"  card_type_id int(11) unsigned NOT NULL AUTO_INCREMENT, " + 
@@ -107,6 +110,9 @@ public class Table {
         		"  CONSTRAINT  product_id_shopping_cart  FOREIGN KEY ( product_id ) REFERENCES  product  ( product_id ) ON DELETE CASCADE ON UPDATE CASCADE) ";
         try {
             // Executes the given tables to add tables to Database
+        	stmt.executeUpdate(drop);
+        	stmt.executeUpdate(database);
+        	stmt.executeUpdate(use);
             stmt.executeUpdate(card_type);
             stmt.executeUpdate(credit_debit);
             stmt.executeUpdate(brand);
