@@ -1,0 +1,15 @@
+1 15 orange 1.99 fruit 12
+2 14 apple 0.99 fruit 13
+3 13 chicken 4.99 meat 56
+4 12 salmon 7.99 seafood 12
+5 11 bananna 0.99 fruit 7
+6 10 watermelon 6.99 fruit 3
+7 9 paper 13.00 stationary 65
+8 8 lobster 54.00 seafood 43
+9 7 cookie 10.00 pastry 200
+10 6 pie 7.00 pastry 90
+11 5 cake 8.00 pastry 67
+12 4 cards 0.99 stationary 76
+13 3 cups 4.99 untensils 54
+14 2 plates 7.99 utensils 45
+15 1 forks 8.99 utensils 21

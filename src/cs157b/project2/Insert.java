@@ -22,7 +22,9 @@ public class Insert
 		try
 		{
 			//connection to do inserts
-			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/157b?useSSL=false", "root", "123");
+
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/157b?useSSL=false", "root", "password");
+
 			statement = conn.createStatement();
 			
 			//BRAND TABLE
