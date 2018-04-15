@@ -23,7 +23,7 @@ public class Insert
 		{
 			//connection to do inserts
 
-			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/157b?useSSL=false", "root", "password");
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/157b?useSSL=false", "root", "123");
 
 			statement = conn.createStatement();
 			

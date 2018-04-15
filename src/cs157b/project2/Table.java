@@ -108,6 +108,16 @@ public class Table {
         		"  KEY  product_id_shopping_cart  ( product_id ), " + 
         		"  CONSTRAINT  order_id_shopping_cart  FOREIGN KEY ( order_id ) REFERENCES  `order`  ( order_id ) ON DELETE CASCADE ON UPDATE CASCADE, " + 
         		"  CONSTRAINT  product_id_shopping_cart  FOREIGN KEY ( product_id ) REFERENCES  product  ( product_id ) ON DELETE CASCADE ON UPDATE CASCADE) ";
+        
+        String purchasedOrder = /*"DROP TABLE IF EXISTS  shopping_cart ; " +*/
+        		"CREATE TABLE if not exists purchased_order  ( " + 
+        		"   order_id  int(11) unsigned NOT NULL, " + 
+        		"   product_id  int(11) unsigned NOT NULL, " + 
+        		"   amount  int(11) NOT NULL, " + 
+        		"  KEY `order_id_purchased_cart` (`order_id`), " + 
+        		"  KEY `product_id_purchased_cart` (`product_id`), " + 
+        		"  CONSTRAINT `order_id_purchased_cart` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE, " + 
+        		"  CONSTRAINT `product_id_purchased_cart` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE) ";
         try {
             // Executes the given tables to add tables to Database
         	stmt.executeUpdate(drop);
@@ -122,6 +132,7 @@ public class Table {
             stmt.executeUpdate(user_payment);
             stmt.executeUpdate(order);
             stmt.executeUpdate(shoppingCart);
+            stmt.executeUpdate(purchasedOrder);
             
         } catch (SQLException se) {
             // Catches if there are exceptions raised by SQL
