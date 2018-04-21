@@ -12,14 +12,14 @@ public class makeConnection {
 	// Change the userName and Password According to your database
 	 private static final String USERNAME = "root";
 	 private static final String PASSWORD= "123";
-	 private static final String Conn_String= "jdbc:mysql://127.0.0.1:3306/157b?useSSL=false";
+	 private static final String Conn_String= "jdbc:sqlite:C:/sqlite/db/157b.db";
 	 
 	 
 	 public static Connection getconnection() {
 	        Connection conn = null;
 	        try {
 	            System.out.println("Creating Database..");
-	            conn = DriverManager.getConnection(Conn_String, USERNAME, PASSWORD);
+	            conn = DriverManager.getConnection(Conn_String);
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }catch (Exception e) {
@@ -43,6 +43,11 @@ public class makeConnection {
 			e.printStackTrace();
 			System.out.println("Create statements failed");
 		}
+		
+		Insert.insertIntoTables();
+		
+		System.out.println("QUERIES");
+		Queries.selectStatements();
 		
 	}
 }
