@@ -23,7 +23,7 @@ public class Insert
 		{
 			//connection to do inserts
 
-			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/157b?useSSL=false", "root", "123");
+			conn = DriverManager.getConnection("jdbc:sqlite:C:/sqlite/db/157b.db");
 
 			statement = conn.createStatement();
 			
@@ -39,6 +39,7 @@ public class Insert
 			
 			ResultSet brandRS = statement.executeQuery("Select * from brand;");
 			
+			System.out.println("BRAND TABLE");
 			System.out.printf("%-10s %-10s \n", "brand_id", "brand_name");
 			while (brandRS.next()) 
 			{
@@ -58,6 +59,7 @@ public class Insert
 			
 			ResultSet cardRS = statement.executeQuery("Select * from card_type;");
 			
+			System.out.println("CARD TABLE");
 			System.out.printf("%-12s %-12s \n", "card_type_id", "card_type_name");
 			while (cardRS.next()) 
 			{
@@ -87,7 +89,7 @@ public class Insert
 			}
 			
 				ResultSet CDRS = statement.executeQuery("Select * from credit_debit;");
-			
+				System.out.println("CEDIT DEBIT TABLE");
 			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n", "payment_id",
 					"name_on_card", "card_number" ,"exp_date", "cvv", "card_type_id");
 			while (CDRS.next()) 
@@ -121,7 +123,7 @@ public class Insert
 			}
 			
 			ResultSet userRS = statement.executeQuery("Select * from user;");
-			
+			System.out.println("USER TABLE");
 			System.out.printf("%-50s %-50s %-50s %-50s %-50s %-50s %-50s \n", "user_id",
 					"username", "password" ,"email", "DOB", "address", "deliveryAddress");
 			while (userRS.next()) 
@@ -144,12 +146,12 @@ public class Insert
 				String cost = hold[0];
 				String buyerID = hold[1];
 				
-				statement.execute("Insert INTO `order`(order_price, user_id) VALUES "
+				statement.execute("Insert INTO [order](order_price, user_id) VALUES "
 						+ "('" + cost + "','" + buyerID +  "')");	
 			}
 			
 			ResultSet orderRS = statement.executeQuery("Select * from `order`;");
-			
+			System.out.println("ORDER TABLE");
 			System.out.printf("%-10s %-10s %-10s %-10s \n", "order_id",
 					"order_price", "user_id" ,"order_status");
 			while (orderRS.next()) 
@@ -170,7 +172,7 @@ public class Insert
 			}
 			
 			ResultSet typeRS = statement.executeQuery("Select * from type;");
-			
+			System.out.println("TYPE TABLE");
 			System.out.printf("%-12s %-12s \n", "type_id", "type_name");
 			while (typeRS.next()) 
 			{
@@ -199,7 +201,7 @@ public class Insert
 			}
 			
 			ResultSet productRS = statement.executeQuery("Select * from product;");
-			
+			System.out.println("PRODUCT TABLE");
 			System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-10s\n", "product_id", "type_id",
 					"brand_id", "product_name" ,"product_price", "product_description", "stock_amount");
 			while (productRS.next()) 
@@ -226,7 +228,7 @@ public class Insert
 			}
 			
 			ResultSet scRS = statement.executeQuery("Select * from shopping_cart;");
-			
+			System.out.println("SHOPPING CART TABLE");
 			System.out.printf("%-12s %-12s %-12s \n", "order_id", "product_id", "amount");
 			while (scRS.next()) 
 			{
@@ -251,7 +253,7 @@ public class Insert
 			}
 			
 			ResultSet upRS = statement.executeQuery("Select * from user_payment;");
-			
+			System.out.println("USER TABLE");
 			System.out.printf("%-12s %-12s \n", "payment_id", "user_id");
 			while (upRS.next()) 
 			{
@@ -260,6 +262,33 @@ public class Insert
 			
 			System.out.println();
 			
+			
+			
+			
+			//PURCHASED ORDER
+			Scanner PO = 	new Scanner(new File("purchasedOrderFile.txt"));
+			while(PO.hasNextLine())
+			{
+				String next = PO.nextLine();
+				String[] hold = next.split(" ");
+				String order_id = hold[0];
+				String product_id = hold[1];
+				String amount = hold[2];
+				
+						
+				statement.execute("Insert INTO purchased_order (order_id, product_id,amount) VALUES ('" + order_id+ "','" + product_id+"','" +amount+  "')");
+				
+			}
+			
+			ResultSet OPRS = statement.executeQuery("Select * from purchased_order;");
+			System.out.println("PURCHASED ORDER TABLE");
+			System.out.printf("%-12s %-12s %-12s \n", "order_id", "product_id", "amount");
+			while (upRS.next()) 
+			{
+               System.out.printf("%-12s %-12s %-12s\n", OPRS.getString("order_id"), OPRS.getString("product_id"), OPRS.getString("amount"));
+            }
+			
+			System.out.println();
 		}
 		catch(FileNotFoundException e) 
 		{

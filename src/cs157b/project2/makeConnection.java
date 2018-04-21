@@ -9,24 +9,25 @@ import java.io.*;
 
 public class makeConnection {
 	
-	public static Connection getconnection() {
-        Connection conn = null;
-        try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            System.out.println("Creating Database..");
-            conn = DriverManager.getConnection(url, "pulkit", "p");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return conn;
+	// Change the userName and Password According to your database
+	 private static final String USERNAME = "root";
+	 private static final String PASSWORD= "123";
+	 private static final String Conn_String= "jdbc:sqlite:C:/sqlite/db/157b.db";
+	 
+	 
+	 public static Connection getconnection() {
+	        Connection conn = null;
+	        try {
+	            System.out.println("Creating Database..");
+	            conn = DriverManager.getConnection(Conn_String);
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return conn;
 
-    }
-	
+	    }
 	 public static void main(String[] args) {
 		 System.out.println("Creating connection");
 		Connection con= makeConnection.getconnection();
@@ -42,6 +43,11 @@ public class makeConnection {
 			e.printStackTrace();
 			System.out.println("Create statements failed");
 		}
+		
+		Insert.insertIntoTables();
+		
+		System.out.println("QUERIES");
+		Queries.selectStatements();
 		
 	}
 }
