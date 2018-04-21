@@ -1,4 +1,4 @@
-package cs157b.project2;
+opackage cs157b.project2;
 import java.sql.*;
 import java.util.Random;
 public class Table {

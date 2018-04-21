@@ -23,74 +23,87 @@ public class Queries {
 
 			statement = conn.createStatement();
 			
-			ResultSet one = statement.executeQuery("select product.product_name, "
-					+ "type.type_name, brand.brand_name, product.product_price,"
-					+ "product.stock_amount, product.product_description FROM product, type, brand WHERE "
-					+ "product.type_id = type.type_id AND product.brand_id = brand.brand_id AND product.product_id = 1;");
-			
-			System.out.println("select product.product_name, type.type_name, brand.brand_name, product.product_price,"
-					+ "product.stock_amount, product.product_description FROM product, type, brand WHERE "
-					+ "product.type_id = type.type_id AND product.brand_id = brand.brand_id AND product.product_id = 1;");
-			 
-			System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s \n", "product.product_name", "type.type_name", "brand.brand_name", "product.product_price",
-					"product.stock_amount", "product.product_description");
-			
+			System.out.println("");
+			String query1 = "select product.product_name, \"\n" + 
+					"					+ \"type.type_name, brand.brand_name, product.product_price,\"\n" + 
+					"					+ \"product.stock_amount, product.product_description FROM product, type, brand WHERE \"\n" + 
+					"					+ \"product.type_id = type.type_id AND product.brand_id = brand.brand_id AND product.product_id = 1;";
+			ResultSet one = statement.executeQuery(query1);
 			
 			while (one.next()) 
 			{
-               System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s \n", one.getString("product_name"), one.getString("type_name"), one.getString("brand_name"), 
-            		   one.getString("product_price"), one.getString("stock_amount"), one.getString("product_description") );
+				String productname = one.getString(1);
+				String typename = one.getString(2);
+				String brandname = one.getString(3);
+				String productprice = one.getString(4);
+				String stockAmount = one.getString(5);
+				String description = one.getString(6);
+				System.out.println("ProductName: " + productname +"typeName: " + typename +"brandName: " + brandname + "ProductPrice: "
+				+ productprice +"StockAmount: " + stockAmount +"Description: " + description);
             }
 			
-			System.out.println();
+			System.out.println("=====================================================================================================");
 			
-			ResultSet two = statement.executeQuery("select product.product_name, shopping_cart.amount, (shopping_cart.amount * product.product_price) AS item_price FROM product, [order], shopping_cart WHERE shopping_cart.order_id = [order].order_id AND shopping_cart.product_id = product.product_id AND [order].order_id = 2;");
-			System.out.println("select product.product_name, shopping_cart.amount, (shopping_cart_amount * product.product_price) AS item_price"
-					+ "from product, [order], shopping_cart WHERE shopping_cart.order_id = [order].order_id AND shopping_cart.product_id = product_product.id"
-					+ "AND [order].order_id =2;");
 			
-			System.out.printf("%-15s %-15s %-15s\n", "product.product_name", "shopping_cart.amount", "item_price");
-			
+			String query2= "select product.product_name, shopping_cart.amount, (shopping_cart.amount * product.product_price) AS item_price FROM product,"
+					+ "[order], shopping_cart WHERE shopping_cart.order_id = [order].order_id AND shopping_cart.product_id = product.product_id AND [order].order_id = 2";
+			ResultSet two = statement.executeQuery("query2");
 			while(two.next())
 			{
-				System.out.printf("%-15s %-15s %-15s\n", two.getString("product_name"), two.getString("amount"), two.getString("item_price"));
+				String productName = two.getString(1); 
+				String amount = two.getString(2);
+				String itemprice = two.getString(3);
+				System.out.println("ProductName " + productName + "Amount " + amount + "ItemPrice "+ itemprice);
 			}
-			System.out.println();
 			
-			ResultSet three = statement.executeQuery("select count(order_id) as item_count from shopping_cart where order_id = 2 group by order_id;");
-			System.out.println("select count(order_id) as item_count from shopping_cart where order_id = 2 group by order_id;");
-			System.out.printf(" %-15s\n", "item_count");
+
+			System.out.println("=====================================================================================================");
 			
+			String query3 = "select count(order_id) as item_count from shopping_cart where order_id = 2 group by order_id";
+			ResultSet three = statement.executeQuery(query3);
+		
 			while(three.next())
 			{
-				System.out.printf(" %-15s\n", three.getString("item_count"));
+				String itemCount = three.getString(1);
+				System.out.println("itemCount " + itemCount);
 			}
 			
-			System.out.println();
+
+			System.out.println("=====================================================================================================");
 			
-			ResultSet four = statement.executeQuery("Select * from product order by product_description;");
-			System.out.println("Select * from product order by product_description;");
-			System.out.printf(" %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "product_id", "type_id", "brand_id", "product_name", "product_price", "product_description", "stock_amount");
+			String query4 = "Select * from product order by product_description";
+			ResultSet four = statement.executeQuery(query4);
 			
 			while(four.next())
 			{
-				System.out.printf(" %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", four.getString("product_id"), four.getString("type_id"), four.getString("brand_id"),
-						four.getString("product_name"), four.getString("product_price"), four.getString("product_description"), four.getString("stock_amount"));
+				String productId = four.getString(1);
+				String typeId= four.getString(2);
+				String brandID= four.getString(3);
+				String productName= four.getString(4);
+				String productPrice= four.getString(5);
+				String ProductDescription= four.getString(6);
+				String StockAmount= four.getString(7);
+				System.out.println("ProductId "+ productId + "TypeId "+ typeId + "brandId "+ brandID +"productName "+ productName + "productPrice "+ productPrice + "ProductDescription  "+ ProductDescription + "StockAmount "+ StockAmount );
 			}
 			
-			System.out.println();
-		
-			ResultSet five = statement.executeQuery("select shoppingCart.product_id, "
-					+ "theProduct.product_id, theProduct.product_name, theProduct.product_price FROM shopping_cart as shoppingCart INNER JOIN product AS theProduct ON shoppingCart.product_id = theProduct.product_id WHERE shoppingCart.product_id = '1'; ");
-			System.out.println("select shoppingCart.product_id, theProduct.product_id, theProduct.product_name, theProduct.product_price FROM shopping_cart as shoppingCart INNER JOIN product AS theProduct ON shoppingCart.product_id = theProduct.product_id WHERE shoppingCart.product_id = '1'; ");
-			System.out.printf(" %-15s %-15s %-15s \n", "product_id", "product_name", "product_price");
+
+			System.out.println("=====================================================================================================");
+			
+			String query5 = "select shoppingCart.product_id, \"\n" + 
+					"					+ \"theProduct.product_id, theProduct.product_name, theProduct.product_price "
+					+ "FROM shopping_cart as shoppingCart INNER JOIN product AS theProduct ON shoppingCart.product_id = theProduct.product_id WHERE shoppingCart.product_id = '1';";
+			ResultSet five = statement.executeQuery(query5);
 			
 			while(five.next())
 			{
-				System.out.printf(" %-15s %-15s %-15s \n", five.getString("product_id"), five.getString("product_name"), five.getString("product_price"));
+				String productId = five.getString(1);
+				String productName = five.getString(2);
+				String productPrice = five.getString(3);
+				System.out.println("product_id" + productId + "product_name" +productName + "product_price" + productPrice);
 			}
+
+			System.out.println("=====================================================================================================");
 			
-			System.out.println();
 			
 		ResultSet six = statement.executeQuery("Select count(amount) as totalQuantity from shopping_cart;");
 		System.out.println("Select count(amount) as totalQuantity from shopping_cart;");
