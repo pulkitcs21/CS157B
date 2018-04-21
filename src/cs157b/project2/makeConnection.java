@@ -12,7 +12,8 @@ public class makeConnection {
 	// Change the userName and Password According to your database
 	 private static final String USERNAME = "root";
 	 private static final String PASSWORD= "123";
-	 private static final String Conn_String= "jdbc:sqlite:C:/sqlite/db/157b.db";
+	 //private static final String Conn_String= "jdbc:sqlite:C:/sqlite/db/157b.db";
+	 private static final String Conn_String= "jdbc:sqlite:/Users/jennifernghinguyen/CS157B/database/157b.db";
 	 
 	 
 	 public static Connection getconnection() {
@@ -29,14 +30,15 @@ public class makeConnection {
 
 	    }
 	 public static void main(String[] args) {
-		 System.out.println("Creating connection");
+		/*System.out.println("Creating connection");
 		Connection con= makeConnection.getconnection();
-		System.out.println("Connection Created");
+		System.out.println("Connection Created");*/
 		
-		Table table;
+		/*Table table;
+		
 		try {
 			table = new Table(con.createStatement(), con);
-			table.createtable();
+			//table.createtable();
 			System.out.println("-------Tables creater---------");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -47,7 +49,7 @@ public class makeConnection {
 		Insert.insertIntoTables();
 		
 		System.out.println("QUERIES");
-		Queries.selectStatements();
+		Queries.selectStatements();*/
 		
 	}
 }

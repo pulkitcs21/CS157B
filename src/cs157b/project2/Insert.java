@@ -10,25 +10,30 @@ import java.sql.*;
 
 public class Insert 
 {
-	public static void main (String args[])
+	private Connection conn;
+	public Insert(Connection conn){
+		this.conn = conn;
+		
+	}
+	/*public static void main (String args[])
 	{
 		insertIntoTables();
-	}
+	}*/
 	
-	public static void insertIntoTables()
+	public  void insertIntoTables()
 	{
-		 Connection conn = null;
+		 //Connection conn = null;
 		 Statement statement = null;
 		try
 		{
 			//connection to do inserts
 
-			conn = DriverManager.getConnection("jdbc:sqlite:C:/sqlite/db/157b.db");
+			//conn = DriverManager.getConnection("jdbc:sqlite:C:/sqlite/db/157b.db");
 
 			statement = conn.createStatement();
 			
 			//BRAND TABLE
-			Scanner brandScanner = 	new Scanner(new File("brandFile.txt"));
+			Scanner brandScanner = 	new Scanner(new File("src/cs157b/project2/brandFile.txt"));
 			while(brandScanner.hasNextLine())
 			{
 				String brandName = brandScanner.nextLine();
@@ -49,7 +54,7 @@ public class Insert
 			System.out.println();
 			
 			//CARD TYPE
-			Scanner cardTypeScanner = 	new Scanner(new File("cardTypeFile.txt"));
+			Scanner cardTypeScanner = 	new Scanner(new File("src/cs157b/project2/cardTypeFile.txt"));
 			while(cardTypeScanner.hasNextLine())
 			{
 				String cardName = cardTypeScanner.nextLine();
@@ -70,7 +75,7 @@ public class Insert
 			
 			//credit debit folder
 			
-			Scanner CDscanner = new Scanner(new File("CDfile.txt"));
+			Scanner CDscanner = new Scanner(new File("src/cs157b/project2/CDfile.txt"));
 			
 			while(CDscanner.hasNextLine())
 			{
@@ -102,7 +107,7 @@ public class Insert
 			System.out.println();
 			
 			//USER
-			Scanner userScanner = new Scanner(new File("userFile.txt"));
+			Scanner userScanner = new Scanner(new File("src/cs157b/project2/userFile.txt"));
 			
 			while(userScanner.hasNextLine())
 			{
@@ -136,7 +141,7 @@ public class Insert
 			System.out.println();
 			
 			//ORDER
-			Scanner orderScanner = new Scanner(new File("orderFile.txt"));
+			/*Scanner orderScanner = new Scanner(new File("src/cs157b/project2/orderFile.txt"));
 			
 			while(orderScanner.hasNextLine())
 			{
@@ -160,10 +165,10 @@ public class Insert
             		   orderRS.getString("order_price"), orderRS.getString("user_id"), orderRS.getString("order_status"));
             }
 			
-			System.out.println();
+			System.out.println(); */
 			
 			//TYPE
-			Scanner typeScanner = 	new Scanner(new File("typeFile.txt"));
+			Scanner typeScanner = 	new Scanner(new File("src/cs157b/project2/typeFile.txt"));
 			while(typeScanner.hasNextLine())
 			{
 				String typeName = typeScanner.nextLine();
@@ -182,7 +187,7 @@ public class Insert
 			System.out.println();
 			
 			//PRODUCT
-			Scanner productScanner = new Scanner(new File("productFile.txt"));
+			Scanner productScanner = new Scanner(new File("src/cs157b/project2/productFile.txt"));
 			
 			while(productScanner.hasNextLine())
 			{
@@ -214,7 +219,7 @@ public class Insert
 			System.out.println();
 			
 			//SHOPPING CART
-			Scanner scScanner = 	new Scanner(new File("shoppingCartFile.txt"));
+			/*Scanner scScanner = 	new Scanner(new File("src/cs157b/project2/shoppingCartFile.txt"));
 			while(scScanner.hasNextLine())
 			{
 				String next = scScanner.nextLine();
@@ -235,11 +240,11 @@ public class Insert
                System.out.printf("%-12s %-12s %-12s \n", scRS.getString("order_id"), scRS.getString("product_id"), scRS.getString("amount"));
             }
 			
-			System.out.println();
+			System.out.println();*/
 			
 			
 			//USER PAYMENT
-			Scanner upScanner = 	new Scanner(new File("userPaymentFile.txt"));
+			Scanner upScanner = 	new Scanner(new File("src/cs157b/project2/userPaymentFile.txt"));
 			while(upScanner.hasNextLine())
 			{
 				String next = upScanner.nextLine();
@@ -266,7 +271,7 @@ public class Insert
 			
 			
 			//PURCHASED ORDER
-			Scanner PO = 	new Scanner(new File("purchasedOrderFile.txt"));
+			/*Scanner PO = 	new Scanner(new File("src/cs157b/project2/purchasedOrderFile.txt"));
 			while(PO.hasNextLine())
 			{
 				String next = PO.nextLine();
@@ -288,7 +293,7 @@ public class Insert
                System.out.printf("%-12s %-12s %-12s\n", OPRS.getString("order_id"), OPRS.getString("product_id"), OPRS.getString("amount"));
             }
 			
-			System.out.println();
+			System.out.println();*/
 		}
 		catch(FileNotFoundException e) 
 		{

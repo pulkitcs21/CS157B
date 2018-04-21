@@ -1,4 +1,4 @@
-opackage cs157b.project2;
+package cs157b.project2;
 import java.sql.*;
 import java.util.Random;
 public class Table {
@@ -23,7 +23,7 @@ public class Table {
         		" CREATE TABLE card_type (\n" + 
         		"    card_type_id   INTEGER       NOT NULL\n" + 
         		"                                 PRIMARY KEY AUTOINCREMENT,\n" + 
-        		"    card_type_name VARCHAR (255) NOT NULL\n" + 
+        		"    card_type_name VARCHAR (255) NOT NULL UNIQUE \n" + 
         		");";
         // Creating table Membership type
         String credit_debit = "DROP TABLE IF EXISTS credit_debit;" +
