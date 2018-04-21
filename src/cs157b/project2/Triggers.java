@@ -12,66 +12,83 @@ public class Triggers {
 		this.conn = conn;
 	}
 	
-	public void createTrigger_tg_purchased_shopping_cart(){
-		Statement stmt =null;
-		
-		 try {
-			stmt = conn.createStatement();
-			String drop = "drop trigger if exists tg_purchased_shopping_cart;";
-			String query = " create trigger tg_purchased_shopping_cart after update on `order` "+
-						   " for each row "+
-						   " BEGIN "+
-						   " 	if NEW.`order_status`='Paid' or NEW.`order_status`='paid' then "+
-						   "		delete from shopping_cart where shopping_cart.order_id = OLD.order_id; "+
-						   "	end if; "+
-						   " END	";
-			stmt.executeUpdate(drop);
-			stmt.executeUpdate(query);
-			stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	/*
+	 * view: payment_method_user_USER_ID
+	 * on insert
+	 * case: card type already exists --> insert into credit_debit
+	 */
 	
-	
-	public void createTrigger_tg_delete_shopping_cart(){
-		Statement stmt =null;
-		
-		 try {
-			stmt = conn.createStatement();
-			String drop = "drop trigger if exists tg_delete_shopping_cart;";
-			String query = " create trigger tg_delete_shopping_cart after delete on `shopping_cart` "+
-						   " for each row "+
-						   " BEGIN "+
-						   "	declare val int; "+
-						   " 	set val = (select is_this_order_paid(OLD.order_id)); "+
-						   "	if val = 1 then "+
-						   "		insert into purchased_order(order_id, product_id, amount) values (OLD.order_id, OLD.product_id, OLD.amount); "+
-						   " 	ELSE "+
-						   " 		delete from `order` where order_id = OLD.order_id; "+
-						   " 	end if;	"+ 
-						   " END ";
-			stmt.executeUpdate(drop);
-			stmt.executeUpdate(query);
-			stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static void main(String[] args) {
+	public void insert1_payment_method_user(int user_id){
+		Statement stmt = null;
+		String drop = "DROP TRIGGER IF EXISTS insert1_payment_method_user_"+user_id+"; ";
+		String stmtString = " CREATE TRIGGER insert1_payment_method_user_"+user_id+"  INSTEAD OF INSERT ON payment_method_user_"+user_id + 
+							" WHEN (SELECT count(*) FROM card_type WHERE card_type_name = NEW.card_type_name) = 1 "+
+								" BEGIN  "+
+								" 		INSERT INTO credit_debit (name_on_card, card_number, exp_date, cvv, card_type_id) "+
+								"		SELECT NEW.name_on_card, NEW.card_number, NEW.exp_date, NEW.cvv, card_type.card_type_id  FROM card_type WHERE card_type_name = NEW.card_type_name; " +
+								"END; ";
 		
 		try {
-			Triggers tr = new Triggers(DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/157b?useSSL=false", "root", "123"));
-			tr.createTrigger_tg_purchased_shopping_cart();
-			tr.createTrigger_tg_delete_shopping_cart();
+			stmt = conn.createStatement();
+			stmt.executeUpdate(drop);
+			 stmt.executeUpdate(stmtString);
+			 stmt.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-
+		}	
 	}
+	
+	/*
+	 * view: payment_method_user_USER_ID
+	 * on insert
+	 * case: card type not exists 
+	 * --> new card type by insert into card_type_view
+	 */
+	
+	public void insert2_payment_method_user(int user_id){
+		Statement stmt = null;
+		String drop = "DROP TRIGGER IF EXISTS insert2_payment_method_user_"+user_id+"; ";
+		String stmtString = " CREATE TRIGGER insert2_payment_method_user_"+user_id+"  INSTEAD OF INSERT ON payment_method_user_"+user_id + 
+							" WHEN (SELECT count(*) from card_type where card_type_name =NEW.card_type_name) <> 1 or (select count(*) from card_type where card_type_name =NEW.card_type_name) is null "+
+								" BEGIN  "+
+								" 		insert into card_type_view(card_type_name)  values (NEW.card_type_name) ; "+
+								"END; ";
+		
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(drop);
+			 stmt.executeUpdate(stmtString);
+			 stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	/*
+	 * view: payment_method_user_USER_ID
+	 * on delete
+	 * --> delete only from table credit_debit
+	 */
+	
+	public void delete_payment_method_user(int user_id){
+		Statement stmt = null;
+		String drop = "DROP TRIGGER IF EXISTS delete_payment_method_user_"+user_id+"; ";
+		String stmtString = " CREATE TRIGGER delete_payment_method_user_"+user_id+"  INSTEAD OF delete ON payment_method_user_"+user_id + 
+								" BEGIN  "+
+								" 		delete "+
+								" 		from credit_debit "+
+								" 		where credit_debit.payment_id=OLD.payment_id; "+
+								"END; ";
+		
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(drop);
+			 stmt.executeUpdate(stmtString);
+			 stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	////////////////////
 
 }
