@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -128,5 +129,39 @@ public class Queries {
 			i.printStackTrace();
 		}
 	}
+	
+	public static void selectAll(String table_name, Connection conn){
+		Statement stmt = null;
+		String query = "select * from "+ table_name+"; ";
+		int col = 0;
+		
+		try {
+			stmt = conn.createStatement();
+			ResultSet re = stmt.executeQuery(query);
+			ResultSetMetaData rsmd = re.getMetaData();
+			for (int i = 1; i <= rsmd.getColumnCount(); i++)
+			{
+				System.out.print(rsmd.getColumnName(i) + " |  ");
+				col += 1;
+			}
+			System.out.println("\n--------------------------------------------------------------------");
+			 while(re.next()){
 
+		         for (int i = 1; i <= col; i++){
+		        	 
+		        	 if(i == col){
+		        		 System.out.print(re.getString(i) + "\n");
+		        	 }else{
+		        		 System.out.print(re.getString(i) +"  |  " );
+		        	 }
+		         }
+		         
+		         
+		      }
+			 System.out.println();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
