@@ -214,7 +214,7 @@ public class Insert
 			System.out.println();
 			
 			//SHOPPING CART
-			/*Scanner scScanner = 	new Scanner(new File("src/cs157b/project2/shoppingCartFile.txt"));
+			Scanner scScanner = 	new Scanner(new File("src/cs157b/project2/shoppingCartFile.txt"));
 			while(scScanner.hasNextLine())
 			{
 				String next = scScanner.nextLine();
@@ -235,7 +235,7 @@ public class Insert
                System.out.printf("%-12s %-12s %-12s \n", scRS.getString("order_id"), scRS.getString("product_id"), scRS.getString("amount"));
             }
 			
-			System.out.println();*/
+			System.out.println();
 			
 			
 			//USER PAYMENT

@@ -23,26 +23,27 @@ public class Queries {
 		try {
 			statement = conn.createStatement();
 
+			System.out.println("Query 1");
 			ResultSet one = statement.executeQuery("select product.product_name, "
 					+ "type.type_name, brand.brand_name, product.product_price,"
 					+ "product.stock_amount, product.product_description FROM product, type, brand WHERE "
 					+ "product.type_id = type.type_id AND product.brand_id = brand.brand_id AND product.product_id = 1;");
-
+			System.out.println();
 			System.out.println("select product.product_name, type.type_name, brand.brand_name, product.product_price,"
 					+ "product.stock_amount, product.product_description FROM product, type, brand WHERE "
 					+ "product.type_id = type.type_id AND product.brand_id = brand.brand_id AND product.product_id = 1;");
-
-			System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s \n", "product.product_name", "type.type_name",
-					"brand.brand_name", "product.product_price", "product.stock_amount", "product.product_description");
+			
+			System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s \n", "Product_name", "Type_name",
+					"Brand_name", "Product_price", "Stock_amount", "Product_description");
 
 			while (one.next()) {
 				System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s \n", one.getString("product_name"),
 						one.getString("type_name"), one.getString("brand_name"), one.getString("product_price"),
 						one.getString("stock_amount"), one.getString("product_description"));
 			}
-
-			System.out.println();
-
+			System.out.println("=====================================================================================");
+			System.out.println("Query 2");
+			
 			ResultSet two = statement.executeQuery(
 					"select product.product_name, shopping_cart.amount, (shopping_cart.amount * product.product_price) AS item_price FROM product, [order], shopping_cart WHERE shopping_cart.order_id = [order].order_id AND shopping_cart.product_id = product.product_id AND [order].order_id = 2;");
 			System.out.println(
@@ -50,26 +51,31 @@ public class Queries {
 							+ "from product, [order], shopping_cart WHERE shopping_cart.order_id = [order].order_id AND shopping_cart.product_id = product_product.id"
 							+ "AND [order].order_id =2;");
 
-			System.out.printf("%-15s %-15s %-15s\n", "product.product_name", "shopping_cart.amount", "item_price");
+			System.out.println();
+			System.out.printf("%-15s %-15s %-15s\n", "Product_name", "shopping_cart.amount", "item_price");
 
 			while (two.next()) {
+				System.out.println("Name: "+ two.getString("product_name"));
 				System.out.printf("%-15s %-15s %-15s\n", two.getString("product_name"), two.getString("amount"),
 						two.getString("item_price"));
 			}
-			System.out.println();
 
+			System.out.println("======================================================================================================================");
+			System.out.println("Query 3");
 			ResultSet three = statement.executeQuery(
 					"select count(order_id) as item_count from shopping_cart where order_id = 2 group by order_id;");
+			System.out.println();
 			System.out.println(
 					"select count(order_id) as item_count from shopping_cart where order_id = 2 group by order_id;");
+			
 			System.out.printf(" %-15s\n", "item_count");
 
 			while (three.next()) {
 				System.out.printf(" %-15s\n", three.getString("item_count"));
 			}
 
-			System.out.println();
-
+			System.out.println("======================================================================================================================");
+			System.out.println("Query 4");
 			ResultSet four = statement.executeQuery("Select * from product order by product_description;");
 			System.out.println("Select * from product order by product_description;");
 			System.out.printf(" %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "product_id", "type_id", "brand_id",
@@ -82,8 +88,7 @@ public class Queries {
 						four.getString("stock_amount"));
 			}
 
-			System.out.println();
-
+			System.out.println("===========================================================================================================");
 			ResultSet five = statement.executeQuery("select shoppingCart.product_id, "
 					+ "theProduct.product_id, theProduct.product_name, theProduct.product_price FROM shopping_cart as shoppingCart INNER JOIN product AS theProduct ON shoppingCart.product_id = theProduct.product_id WHERE shoppingCart.product_id = '1'; ");
 			System.out.println(
@@ -102,7 +107,7 @@ public class Queries {
 
 			System.out.printf(" %-15s \n", "totalQuantity");
 
-			while (five.next()) {
+			while (six.next()) {
 				System.out.printf(" %-15s \n", six.getString("totalQuantity"));
 			}
 
@@ -115,13 +120,62 @@ public class Queries {
 			System.out.printf(" %-15s %-15s %-15s %-15s %-15s %-15s %-15s \n", "product_id", "type_id", "brand_id",
 					"product_name", "product_price", "product_description", "stock_amount");
 
-			while (six.next()) {
-				System.out.printf(" %-15s %-15s %-15s %-15s %-15s %-15s %-15s \n", six.getString("product_id"),
-						six.getString("type_id"), six.getString("brand_id"), six.getString("product_name"),
-						six.getString("product_price"), six.getString("product_description"),
-						six.getString("stock_amount"));
+			while (seven.next()) {
+				System.out.printf(" %-15s %-15s %-15s %-15s %-15s %-15s %-15s \n", seven.getString("product_id"),
+						seven.getString("type_id"), seven.getString("brand_id"), seven.getString("product_name"),
+						seven.getString("product_price"), seven.getString("product_description"),
+						seven.getString("stock_amount"));
 			}
+			// JOINS
+			
+			System.out.println("===========================================================================================================");
+			System.out.println("Query 8");
+			String query8 = "select distinct product.product_name from product cross join brand where product.type_id > 8";
+			System.out.println(query8);
+			ResultSet eight = statement.executeQuery(query8); 
+			while (eight.next()) {
+				String productName = eight.getString(1);
+				System.out.println("Product Name: "+ productName);
+			}
+			
+			//LEFT JOIN
+			System.out.println("===========================================================================================================");
+			System.out.println("Query 9");
+			String query9 = "select pd.product_name as Name, pd.product_price as Price, pd.product_description as Description from product pd \n" + 
+					"Left join brand on brand.brand_id = pd.brand_id\n" + 
+					"left join type on type.type_id = pd.type_id\n" + 
+					"where pd.product_price > 5 order by pd.product_description;";
+			System.out.println(query9);
+			System.out.println();
+			ResultSet nine = statement.executeQuery(query9); 
+			
+			System.out.printf(" %-15s %-15s %-15s \n", "Name", "Price", "Description");
+			while(nine.next()) {
+				String name = nine.getString(1);
+				String price = nine.getString(2);
+				String description = nine.getString(3);
+				System.out.printf(" %-15s %-15s %-15s \n", name, price, description);
+			}
+			
 
+			//Self JOIN
+			System.out.println("===========================================================================================================");
+			System.out.println("Query 10");
+			String query10 = "Select s.order_id, b.amount, b.product_id\n" + 
+					"from shopping_cart s, shopping_cart b\n" + 
+					"where s.order_id = b.order_id and s.amount >20; ";
+			System.out.println(query10);
+			System.out.println();
+			ResultSet ten = statement.executeQuery(query10); 
+			
+			System.out.printf(" %-15s %-15s %-15s \n", "OrderId", "Amount", "Product ID");
+			while(ten.next()) {
+				String name = ten.getString(1);
+				String price = ten.getString(2);
+				String description = ten.getString(3);
+				System.out.printf(" %-15s %-15s %-15s \n", name, price, description);
+			}
+			
 		} catch (SQLException i) {
 			// System.out.println("Query for initializing tables found. Please check your
 			// file formatting.");
