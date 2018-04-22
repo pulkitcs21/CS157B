@@ -104,7 +104,6 @@ public final class UID {
 								" where payment_id = "+ payment_id+"; ";
 			
 			try {
-				System.out.println(stmtString);
 				stmt = conn.createStatement();
 				stmt.executeUpdate(stmtString);
 			} catch (SQLException e) {
@@ -112,4 +111,56 @@ public final class UID {
 			}
 			
 		}
+		
+		//shopping_cart_user_USER_ID VIEW
+		public static void insert_shopping_cart_user(int user_id, String product_name, int amount, Connection conn){
+			Statement stmt = null;
+			String stmtString = "insert into shopping_cart_user_"+user_id+"(product_name, amount) "+
+								" values ('"+product_name+"', "+amount+" ); ";
+			try {
+				stmt = conn.createStatement();
+				stmt.executeUpdate(stmtString);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public static void update_shopping_cart_user(int user_id, String product_name, int amount, Connection conn){
+			Statement stmt = null;
+			String stmtString = " update shopping_cart_user_"+user_id+
+								" set amount = "+ amount +
+								" where product_name = '"+product_name+"';";
+			try {
+				stmt = conn.createStatement();
+				stmt.executeUpdate(stmtString);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public static void delete_shopping_cart_user(int user_id, String product_name, Connection conn){
+			Statement stmt = null;
+			String stmtString = " delete "+
+								" from shopping_cart_user_"+user_id+
+								" where product_name = '"+product_name+"';";
+			try {
+				stmt = conn.createStatement();
+				stmt.executeUpdate(stmtString);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//history_order_user_USER_ID VIEW
+				public static void insert_history_order_user(int user_id, int order_id, Connection conn){
+					Statement stmt = null;
+					String stmtString = "insert into history_order_user_"+user_id+"(order_id) "+
+										" values ('"+order_id+"' ); ";
+					try {
+						stmt = conn.createStatement();
+						stmt.executeUpdate(stmtString);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 }

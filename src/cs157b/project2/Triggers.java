@@ -21,6 +21,9 @@ public final class Triggers {
 								" BEGIN  "+
 								" 		INSERT INTO credit_debit (name_on_card, card_number, exp_date, cvv, card_type_id) "+
 								"		SELECT NEW.name_on_card, NEW.card_number, NEW.exp_date, NEW.cvv, card_type.card_type_id  FROM card_type WHERE card_type_name = NEW.card_type_name; " +
+								"		insert into user_payment (payment_id, user_id) "+
+								"		select payment_id, "+user_id+" from credit_debit "+
+								"		where payment_id = ( select MAX(payment_id) from credit_debit); " + 
 								" END; ";
 		
 		try {
@@ -73,6 +76,9 @@ public final class Triggers {
 								" 		delete "+
 								" 		from credit_debit "+
 								" 		where credit_debit.payment_id=OLD.payment_id; "+
+								" 		delete "+
+								" 		from user_payment "+
+								" 		where payment_id=OLD.payment_id; "+
 								" END; ";
 		
 		try {
