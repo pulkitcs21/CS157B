@@ -1,51 +1,52 @@
 package cs157b.project2;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ProjectRunner {
 
 	public static void main(String[] args) {
 		// create connection
-		 System.out.println("Creating connection");
-		 Connection con= makeConnection.getconnection();
-		 System.out.println("Connection Created");
-		
-		 //create table
-		 Table table;
-			
-			try {
-				table = new Table(con.createStatement(), con);
+		try {
+			Connection con = makeConnection.getconnection();
+			Statement stmt;
+			stmt = con.createStatement();
+
+			// create table
+			Table table;
+				table = new Table(stmt, con);
 				table.createtable();
-				System.out.println("-------Tables creater---------");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("Create statements failed");
-			}
-			
-			
-			
-		//insert raw data
+				System.out.println("-------Tables created---------");
+				System.out.println("=====================================================================================");
+			System.out.println("Inserting to Database");
+			// insert raw data
 			Insert insert = new Insert(con);
 			insert.insertIntoTables();
+			System.out.println("Insertion Complete");
+			System.out.println("=====================================================================================");
+
+			// Run Queries
+			Queries queries = new Queries(con, stmt);
+			queries.selectStatements();
 			
-		//create views
+			
+			// create views
 			Views views = new Views(con);
 			views.card_type_view();
 			views.payment_method_user(1);
 			views.shopping_cart_user(1);
 			views.history_order_user(1);
-			
-		
-		//create trigger
+
+			// create trigger
 			Triggers tg = new Triggers(con);
 			tg.insert1_payment_method_user(1);
 			tg.insert2_payment_method_user(1);
 			tg.delete_payment_method_user(1);
-		
-		//uid
 
+			// uid
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

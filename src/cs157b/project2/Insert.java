@@ -15,14 +15,9 @@ public class Insert
 		this.conn = conn;
 		
 	}
-	/*public static void main (String args[])
-	{
-		insertIntoTables();
-	}*/
 	
 	public  void insertIntoTables()
 	{
-		 //Connection conn = null;
 		 Statement statement = null;
 		try
 		{
