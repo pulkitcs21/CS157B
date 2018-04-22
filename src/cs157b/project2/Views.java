@@ -34,8 +34,19 @@ public class Views {
 		}		
 	}
 	
-	
-	
+	/*
+	 * routine for creating view payment_method_user and its triggers
+	 */
+	public void payment_method_user_routine(int user_id){
+		//create payment_method_user view
+		payment_method_user(user_id);
+		
+		//create triggers on this view
+		Triggers.insert1_payment_method_user(user_id, conn);
+		Triggers.insert2_payment_method_user(user_id, conn);
+		Triggers.delete_payment_method_user(user_id, conn);
+	}
+	//////////////////////////////////////
 	/*
 	 * user-specific view
 	 * create view such as shopping_cart_user_1
@@ -60,6 +71,23 @@ public class Views {
 	}
 	
 	/*
+	 * routine for creating view shopping_cart_user and its triggers
+	 */
+	public void shopping_cart_user_routine(int user_id){
+		//create payment_method_user view
+		shopping_cart_user(user_id);
+		
+		//create triggers on this view
+		Triggers.insert1_shopping_cart_user(user_id, conn);
+		Triggers.insert2_shopping_cart_user(user_id, conn);
+		Triggers.update_shopping_cart_user(user_id, conn);
+		Triggers.delete_shopping_cart_user(user_id, conn);
+	}
+	
+	
+	
+	/////////////////////////
+	/*
 	 * user-specific view
 	 * create view such as history_order_user_1
 	 */
@@ -82,6 +110,17 @@ public class Views {
 		}		
 	}
 	
+	/*
+	 * routine for creating view shopping_cart_user and its triggers
+	 */
+	public void history_order_user_routine(int user_id){
+		//create payment_method_user view
+		history_order_user(user_id);
+		
+		//create triggers on this view
+		Triggers.insert1_history_order_user(user_id, conn);
+	}
+	
 	
 	/*
 	 * card type view
@@ -102,5 +141,30 @@ public class Views {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
+	}
+	
+	/*
+	 * routine for creating view card_type_view and its triggers
+	 */
+	public void card_type_view_routine(){
+		//create payment_method_user view
+		card_type_view();
+		
+		//create triggers on this view
+		Triggers.insert_card_type_view(conn);
+		Triggers.update_card_type_view(conn);
+		Triggers.delete_card_type_view(conn);
+		
+	}
+	
+	///////////
+	
+	/*
+	 * include all user-specific views and its triggers
+	 */
+	public void user_specific_views_routines(int user_id){
+		payment_method_user_routine(user_id);
+		shopping_cart_user_routine(user_id);
+		history_order_user_routine(user_id);
 	}
 }
