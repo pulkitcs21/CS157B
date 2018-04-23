@@ -12,7 +12,7 @@ public class makeConnection {
 	// Change the userName and Password According to your database
 	 private static final String USERNAME = "root";
 	 private static final String PASSWORD= "123";
-	 private static final String Conn_String= "jdbc:sqlite:/Users/pulkit/Desktop/CS157B/database/157b.db";
+	 private static final String Conn_String= "jdbc:sqlite:/Users/jennifernghinguyen/CS157B/database/157b.db";
 	 
 	 
 	 public static Connection getconnection() {

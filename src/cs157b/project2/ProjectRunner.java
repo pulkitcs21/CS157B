@@ -71,7 +71,6 @@ public class ProjectRunner {
 			System.out.println("------------------shopping_cart_user_1-------------");
 			System.out.println("INSERT ITEMS IN SHOPPING CART");
 			UID.insert_shopping_cart_user(1, "watermelon", 10, con);
-			UID.insert_shopping_cart_user(1, "forks", 10, con);
 			UID.insert_shopping_cart_user(1, "cookie", 10, con);
 			Queries.selectAll("shopping_cart_user_1", con);
 			Queries.selectAll("`order`", con);
