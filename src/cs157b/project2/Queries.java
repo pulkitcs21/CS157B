@@ -176,7 +176,57 @@ public class Queries {
 				String description = ten.getString(3);
 				System.out.printf(" %-15s %-15s %-15s \n", name, price, description);
 			}
+                        
+                        
+                        //More Select queries
+                        System.out.println("===========================================================================================================");
+			System.out.println("Query 11");
+                        String query11 = "Select user_id, username \n"
+                                + "from user \n"
+                                + "where DOB > '2005-01-01' ;";
+                        System.out.println(query11);
+			System.out.println();
+			ResultSet eleven = statement.executeQuery(query11);
+                        
+                        System.out.printf(" %-15s %-15s \n", "UserID", "Username");
+			while(eleven.next()) {
+				String userid = eleven.getString(1);
+				String username = eleven.getString(2);
+				System.out.printf(" %-15s %-15s \n", userid, username);
+			}
 			
+                        System.out.println("===========================================================================================================");
+			System.out.println("Query 12");
+                        String query12 = "Select name_on_card, username \n"
+                                + "from user_payment join user join credit_debit \n"
+                                + "on user.user_id = user_payment.user_id AND credit_debit.payment_id = user_payment.payment_id;";
+                        System.out.println(query12);
+			System.out.println();
+			ResultSet twelve = statement.executeQuery(query12);
+                        
+                        System.out.printf(" %-15s %-15s \n", "Name on Card", "Username");
+			while(twelve.next()) {
+				String name_on_card = twelve.getString(1);
+				String username = twelve.getString(2);
+				System.out.printf(" %-15s %-15s \n", name_on_card, username);
+			}
+                        
+                        System.out.println("===========================================================================================================");
+			System.out.println("Query 13");
+                        String query13 = "Select name_on_card, card_type_name \n"
+                                + "from credit_debit join card_type \n"
+                                + "on credit_debit.card_type_id = card_type.card_type_id ;";
+                        System.out.println(query13);
+			System.out.println();
+			ResultSet thirteen = statement.executeQuery(query13);
+                        
+                        System.out.printf(" %-15s %-15s \n", "Name on Card", "Card Type");
+			while(thirteen.next()) {
+				String name_on_card = thirteen.getString(1);
+				String card_type = thirteen.getString(2);
+				System.out.printf(" %-15s %-15s \n", name_on_card, card_type);
+			}
+                        
 		} catch (SQLException i) {
 			// System.out.println("Query for initializing tables found. Please check your
 			// file formatting.");
