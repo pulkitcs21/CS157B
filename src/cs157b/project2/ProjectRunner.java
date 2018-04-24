@@ -27,9 +27,7 @@ public class ProjectRunner {
 			System.out.println("Insertion Complete");
 			System.out.println("=====================================================================================");
 
-			// Run Queries
-			Queries queries = new Queries(con, stmt);
-			queries.selectStatements();
+			
 			
 			
 
@@ -37,7 +35,19 @@ public class ProjectRunner {
 			Views views = new Views(con);
 			views.card_type_view_routine();
 			//user id = 1
-			views.user_specific_views_routines(1);	
+			views.user_specific_views_routines(1);
+			//user id = 2
+			views.user_specific_views_routines(2);	
+			//user id = 3
+			views.user_specific_views_routines(3);	
+			//user id = 4
+			views.user_specific_views_routines(4);	
+			//user id = 5
+			views.user_specific_views_routines(5);	
+			//user id = 6
+			views.user_specific_views_routines(6);	
+			//user id = 7
+			views.user_specific_views_routines(7);	
 			
 		//uid
 			System.out.println("------------------card_type_view-------------");
@@ -83,6 +93,8 @@ public class ProjectRunner {
 			Queries.selectAll("shopping_cart_user_1", con);
 			Queries.selectAll("`order`", con);
 			
+			
+			
 			System.out.println("------------------history_order_user_1-------------");
 			System.out.println("CHECKOUT FOR USER ID 1");
 			UID.insert_history_order_user(1, 1, con);
@@ -92,6 +104,48 @@ public class ProjectRunner {
 			Queries.selectAll("`order`", con);
 			System.out.println("-----purchased_order-----");
 			Queries.selectAll("purchased_order", con);
+			
+			System.out.println("------------------user_2-------------");
+			UID.insert_shopping_cart_user(2, "orange", 8, con);
+			UID.insert_shopping_cart_user(2, "cookie", 10, con);
+			UID.insert_history_order_user(2, 2, con); //checkout
+			
+			UID.insert_shopping_cart_user(2, "salmon", 2, con);
+			UID.insert_shopping_cart_user(2, "watermelon", 3, con);
+			UID.insert_history_order_user(2, 3 , con);//checkout
+			
+			System.out.println("------------------user_3-------------");
+			UID.insert_shopping_cart_user(3, "paper", 20, con);
+			UID.insert_shopping_cart_user(3, "chicken", 2, con);
+			
+			System.out.println("------------------user_4-------------");
+			UID.insert_shopping_cart_user(4, "pie", 8, con);
+			UID.insert_shopping_cart_user(4, "cups", 10, con);
+			UID.insert_history_order_user(4, 4, con);//checkout
+			System.out.println("------------------user_5-------------");
+			UID.insert_shopping_cart_user(5, "lobster", 3, con);
+			UID.insert_shopping_cart_user(5, "cookie", 4, con);
+			UID.insert_history_order_user(5, 5, con);//checkout
+			System.out.println("------------------user_6-------------");
+			UID.insert_shopping_cart_user(6, "watermelon", 18, con);
+			UID.insert_shopping_cart_user(6, "plates", 10, con);
+			UID.insert_shopping_cart_user(6, "bananna", 2, con);
+			UID.insert_shopping_cart_user(6, "cups", 10, con);
+			UID.insert_shopping_cart_user(6, "apple", 10, con);
+			
+			
+			System.out.println("------------------user_7-------------");
+			UID.insert_shopping_cart_user(7, "plates", 8, con);
+			UID.insert_shopping_cart_user(7, "forks", 10, con);
+			UID.insert_shopping_cart_user(7, "cups", 10, con);
+			UID.insert_shopping_cart_user(7, "paper", 10, con);
+			UID.insert_shopping_cart_user(7, "watermelon", 10, con);
+			
+			
+			// Run Queries
+			Queries queries = new Queries(con, stmt);
+			queries.selectStatements();
+						
 			
 		} catch (SQLException e) {
 				// TODO Auto-generated catch block
