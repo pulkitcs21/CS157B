@@ -225,6 +225,38 @@ public class Queries {
 				String name_on_card = thirteen.getString(1);
 				String card_type = thirteen.getString(2);
 				System.out.printf(" %-15s %-15s \n", name_on_card, card_type);
+				
+				System.out.println("===========================================================================================================");
+				System.out.println("Query 14");
+	                        String query14 = "Delete from brand where brand_name = 'PAM';";
+	                        System.out.println(query14);
+	                        String queryDelete = "Select * from brand;";
+				System.out.println();
+	                        statement.execute(query14);
+				ResultSet fourteen = statement.executeQuery(queryDelete);
+	                        
+	                        System.out.printf(" %-15s %-15s \n", "brand_id", "brand_name");
+				while(fourteen.next()) {
+					String brandID = fourteen.getString(1);
+					String brandName = fourteen.getString(2);
+					System.out.printf(" %-15s %-15s \n", brandID, brandName);
+			}
+				
+				System.out.println("===========================================================================================================");
+				System.out.println("Query 15");
+	                        String query15 = "Update brand Set brand_name = 'SquareEnix' where brand_id = 3";;
+	                        System.out.println(query15);
+	                        String queryUpdate = "Select * from brand;";
+				System.out.println();
+	                        statement.execute(query15);
+				ResultSet fifteen = statement.executeQuery(queryUpdate);
+	                        
+	                        System.out.printf(" %-15s %-15s \n", "brand_id", "brand_name");
+				while(fifteen.next()) {
+					String brandID = fifteen.getString(1);
+					String brandName = fifteen.getString(2);
+					System.out.printf(" %-15s %-15s \n", brandID, brandName);
+			}
 			}
                         
 		} catch (SQLException i) {

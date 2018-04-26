@@ -1,6 +1,7 @@
 package cs157b.project2;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class ProjectRunner {
 
@@ -84,14 +85,17 @@ public class ProjectRunner {
 			UID.insert_shopping_cart_user(1, "cookie", 10, con);
 			Queries.selectAll("shopping_cart_user_1", con);
 			Queries.selectAll("`order`", con);
+			Queries.selectAll("shopping_cart", con);
 			System.out.println("UPDATE AMOUNT IN SHOPPING CART");
 			UID.update_shopping_cart_user(1, "cookie", 5, con);
 			Queries.selectAll("shopping_cart_user_1", con);
 			Queries.selectAll("`order`", con);
+			Queries.selectAll("shopping_cart", con);
 			System.out.println("DELETE ITEMS IN SHOPPING CART");
 			UID.delete_shopping_cart_user(1, "cookie", con);
 			Queries.selectAll("shopping_cart_user_1", con);
 			Queries.selectAll("`order`", con);
+			Queries.selectAll("shopping_cart", con);
 			
 			
 			
@@ -145,7 +149,71 @@ public class ProjectRunner {
 			// Run Queries
 			Queries queries = new Queries(con, stmt);
 			queries.selectStatements();
+			String userInput = "";
+			System.out.println("User entered queries: ");
+			
 						
+			while (!userInput.equals("done"))
+			{
+				Scanner scanner = new Scanner(System.in);
+				userInput = scanner.nextLine();
+
+					System.out.println(userInput);
+					
+					if(userInput.contains("select"))
+					{
+						ResultSet rs = stmt.executeQuery(userInput);
+						   ResultSetMetaData rsmd = rs.getMetaData();
+						   int columnsNumber = rsmd.getColumnCount();
+						   while (rs.next()) {
+						       for (int i = 1; i <= columnsNumber; i++) {
+						           if (i > 1) System.out.print("  ");
+						           String columnValue = rs.getString(i);
+						           System.out.print(columnValue + " ");
+						       }
+						       System.out.println("");
+						   }
+						   System.out.println("");
+					}
+					else if (userInput.equals(""))
+					{
+						continue;
+					}
+					else
+					{
+							stmt.execute(userInput);
+							String[] hold = userInput.split(" ");
+							String name = "";
+							if(userInput.toLowerCase().contains("update"))
+							{
+								name = hold[1];
+							}
+							else if(userInput.toLowerCase().contains("delete"))
+							{
+								name = hold[2];
+							}
+							else
+							{
+								name = hold[3];
+							}
+						
+							ResultSet rs = stmt.executeQuery("select * from" + "'" + name + "';");
+						   ResultSetMetaData rsmd = rs.getMetaData();
+						   int columnsNumber = rsmd.getColumnCount();
+						   while (rs.next()) {
+						       for (int i = 1; i <= columnsNumber; i++) {
+						           if (i > 1) System.out.print("  ");
+						           String columnValue = rs.getString(i);
+						           System.out.print(columnValue + " ");
+						       }
+						       System.out.println("");
+						   }
+						   System.out.println("");
+					}
+					
+			
+			}
+			
 			
 		} catch (SQLException e) {
 				// TODO Auto-generated catch block
