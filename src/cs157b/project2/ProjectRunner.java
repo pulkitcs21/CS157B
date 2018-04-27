@@ -3,6 +3,9 @@ package cs157b.project2;
 import java.sql.*;
 import java.util.Scanner;
 
+/**
+ * Runs the project, creates database and runs queries
+ */
 public class ProjectRunner {
 
 	public static void main(String[] args) {
@@ -14,25 +17,25 @@ public class ProjectRunner {
 
 			// create table
 			Table table;
-				table = new Table(stmt, con);
-				table.createtable();
+			table = new Table(stmt, con);
+			table.createtable();
 
-				System.out.println("-------Tables created---------");
-				System.out.println("=====================================================================================");
+			System.out.println("-------Tables created---------");
+			System.out.println("=====================================================================================");
 			System.out.println("Inserting to Database");
-			
-			
+
+
 			//insert raw data
 			Insert insert = new Insert(con);
 			insert.insertIntoTables();
 			System.out.println("Insertion Complete");
 			System.out.println("=====================================================================================");
 
-			
-			
-			
 
-		//create views + triggers on views
+
+
+
+			//create views + triggers on views
 			Views views = new Views(con);
 			views.card_type_view_routine();
 			//user id = 1
@@ -49,8 +52,8 @@ public class ProjectRunner {
 			views.user_specific_views_routines(6);	
 			//user id = 7
 			views.user_specific_views_routines(7);	
-			
-		//uid
+
+			//uid
 			System.out.println("------------------card_type_view-------------");
 			Queries.selectAll("card_type_view", con);
 			System.out.println("INSERT");
@@ -62,7 +65,7 @@ public class ProjectRunner {
 			System.out.println("DELETE");
 			UID.delete_card_type_view("new card 1", con);
 			Queries.selectAll("card_type_view", con);
-			
+
 			System.out.println("------------------payment_method_user_1-------------");
 			Queries.selectAll("payment_method_user_1", con);
 			System.out.println("INSERT WITH NEW CARD TYPE");
@@ -78,7 +81,7 @@ public class ProjectRunner {
 			UID.delete_payment_method_user(1, 12, con);
 			Queries.selectAll("credit_debit", con);
 			Queries.selectAll("user_payment", con);
-			
+
 			System.out.println("------------------shopping_cart_user_1-------------");
 			System.out.println("INSERT ITEMS IN SHOPPING CART");
 			UID.insert_shopping_cart_user(1, "watermelon", 10, con);
@@ -96,9 +99,9 @@ public class ProjectRunner {
 			Queries.selectAll("shopping_cart_user_1", con);
 			Queries.selectAll("`order`", con);
 			Queries.selectAll("shopping_cart", con);
-			
-			
-			
+
+
+
 			System.out.println("------------------history_order_user_1-------------");
 			System.out.println("CHECKOUT FOR USER ID 1");
 			UID.insert_history_order_user(1, 1, con);
@@ -108,20 +111,20 @@ public class ProjectRunner {
 			Queries.selectAll("`order`", con);
 			System.out.println("-----purchased_order-----");
 			Queries.selectAll("purchased_order", con);
-			
+
 			System.out.println("------------------user_2-------------");
 			UID.insert_shopping_cart_user(2, "orange", 8, con);
 			UID.insert_shopping_cart_user(2, "cookie", 10, con);
 			UID.insert_history_order_user(2, 2, con); //checkout
-			
+
 			UID.insert_shopping_cart_user(2, "salmon", 2, con);
 			UID.insert_shopping_cart_user(2, "watermelon", 3, con);
 			UID.insert_history_order_user(2, 3 , con);//checkout
-			
+
 			System.out.println("------------------user_3-------------");
 			UID.insert_shopping_cart_user(3, "paper", 20, con);
 			UID.insert_shopping_cart_user(3, "chicken", 2, con);
-			
+
 			System.out.println("------------------user_4-------------");
 			UID.insert_shopping_cart_user(4, "pie", 8, con);
 			UID.insert_shopping_cart_user(4, "cups", 10, con);
@@ -136,94 +139,94 @@ public class ProjectRunner {
 			UID.insert_shopping_cart_user(6, "bananna", 2, con);
 			UID.insert_shopping_cart_user(6, "cups", 10, con);
 			UID.insert_shopping_cart_user(6, "apple", 10, con);
-			
-			
+
+
 			System.out.println("------------------user_7-------------");
 			UID.insert_shopping_cart_user(7, "plates", 8, con);
 			UID.insert_shopping_cart_user(7, "forks", 10, con);
 			UID.insert_shopping_cart_user(7, "cups", 10, con);
 			UID.insert_shopping_cart_user(7, "paper", 10, con);
 			UID.insert_shopping_cart_user(7, "watermelon", 10, con);
-			
-			
+
+
 			// Run Queries
 			Queries queries = new Queries(con, stmt);
 			queries.selectStatements();
 			String userInput = "";
 			System.out.println("User entered queries: ");
-			
-						
+
+
 			while (!userInput.equals("done"))
 			{
 				Scanner scanner = new Scanner(System.in);
 				userInput = scanner.nextLine();
 
-					System.out.println(userInput);
-					
-					if(userInput.contains("select"))
-					{
-						ResultSet rs = stmt.executeQuery(userInput);
-						   ResultSetMetaData rsmd = rs.getMetaData();
-						   int columnsNumber = rsmd.getColumnCount();
-						   while (rs.next()) {
-						       for (int i = 1; i <= columnsNumber; i++) {
-						           if (i > 1) System.out.print("  ");
-						           String columnValue = rs.getString(i);
-						           System.out.print(columnValue + " ");
-						       }
-						       System.out.println("");
-						   }
-						   System.out.println("");
+				System.out.println(userInput);
+
+				if(userInput.contains("select"))
+				{
+					ResultSet rs = stmt.executeQuery(userInput);
+					ResultSetMetaData rsmd = rs.getMetaData();
+					int columnsNumber = rsmd.getColumnCount();
+					while (rs.next()) {
+						for (int i = 1; i <= columnsNumber; i++) {
+							if (i > 1) System.out.print("  ");
+							String columnValue = rs.getString(i);
+							System.out.print(columnValue + " ");
+						}
+						System.out.println("");
 					}
-					else if (userInput.equals(""))
+					System.out.println("");
+				}
+				else if (userInput.equals(""))
+				{
+					continue;
+				}
+				else
+				{
+					stmt.execute(userInput);
+					String[] hold = userInput.split(" ");
+					String name = "";
+					if(userInput.toLowerCase().contains("update"))
 					{
-						continue;
+						name = hold[1];
+					}
+					else if(userInput.toLowerCase().contains("delete"))
+					{
+						name = hold[2];
 					}
 					else
 					{
-							stmt.execute(userInput);
-							String[] hold = userInput.split(" ");
-							String name = "";
-							if(userInput.toLowerCase().contains("update"))
-							{
-								name = hold[1];
-							}
-							else if(userInput.toLowerCase().contains("delete"))
-							{
-								name = hold[2];
-							}
-							else
-							{
-								name = hold[3];
-							}
-						
-							ResultSet rs = stmt.executeQuery("select * from" + "'" + name + "';");
-						   ResultSetMetaData rsmd = rs.getMetaData();
-						   int columnsNumber = rsmd.getColumnCount();
-						   while (rs.next()) {
-						       for (int i = 1; i <= columnsNumber; i++) {
-						           if (i > 1) System.out.print("  ");
-						           String columnValue = rs.getString(i);
-						           System.out.print(columnValue + " ");
-						       }
-						       System.out.println("");
-						   }
-						   System.out.println("");
+						name = hold[3];
 					}
-					
-			
+
+					ResultSet rs = stmt.executeQuery("select * from" + "'" + name + "';");
+					ResultSetMetaData rsmd = rs.getMetaData();
+					int columnsNumber = rsmd.getColumnCount();
+					while (rs.next()) {
+						for (int i = 1; i <= columnsNumber; i++) {
+							if (i > 1) System.out.print("  ");
+							String columnValue = rs.getString(i);
+							System.out.print(columnValue + " ");
+						}
+						System.out.println("");
+					}
+					System.out.println("");
+				}
+
+
 			}
-			
-			
+
+
 		} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("Create statements failed");
-			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Create statements failed");
+
 		}
-			
-			
-		
+
+
+
 
 	}
 

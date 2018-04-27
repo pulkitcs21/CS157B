@@ -8,17 +8,28 @@ import java.util.Scanner;
 
 import java.sql.*;
 
+/**
+ * Inserts data into the database tables
+ */
 public class Insert 
 {
 	private Connection conn;
+	
+	/**
+	 * Creates the connection to the database
+	 * @param conn the connection to the database
+	 */
 	public Insert(Connection conn){
 		this.conn = conn;
 		
 	}
 	
-	public  void insertIntoTables()
+	/**
+	 * Insert statements for all the tables
+	 */
+	public void insertIntoTables()
 	{
-		 Statement statement = null;
+		Statement statement = null;
 		try
 		{
 			//connection to do inserts

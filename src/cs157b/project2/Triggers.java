@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Creates and implements triggers for the database
+ */
 public final class Triggers {
 
 	

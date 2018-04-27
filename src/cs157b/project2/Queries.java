@@ -10,17 +10,28 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+/**
+ * Creates and executes Queries for Database
+ */
 public class Queries {
 	private Connection conn;
 	private Statement statement;
-	
+
+	/**
+	 * Connects Database to Queries
+	 * @param conn the connection to the database
+	 * @param statement each SQL statement to execute
+	 */
 	public Queries(Connection conn, Statement statement) {
 		this.conn = conn;
 		this.statement = statement;
 	}
 
+	/**
+	 * Creates and executes queries using statments
+	 */
 	public void selectStatements() {
-	
+
 		try {
 			statement = conn.createStatement();
 
@@ -33,7 +44,7 @@ public class Queries {
 			System.out.println("select product.product_name, type.type_name, brand.brand_name, product.product_price,"
 					+ "product.stock_amount, product.product_description FROM product, type, brand WHERE "
 					+ "product.type_id = type.type_id AND product.brand_id = brand.brand_id AND product.product_id = 1;");
-			
+
 			System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s \n", "Product_name", "Type_name",
 					"Brand_name", "Product_price", "Stock_amount", "Product_description");
 
@@ -44,7 +55,7 @@ public class Queries {
 			}
 			System.out.println("=====================================================================================");
 			System.out.println("Query 2");
-			
+
 			ResultSet two = statement.executeQuery(
 					"select product.product_name, shopping_cart.amount, (shopping_cart.amount * product.product_price) AS item_price FROM product, [order], shopping_cart WHERE shopping_cart.order_id = [order].order_id AND shopping_cart.product_id = product.product_id AND [order].order_id = 2;");
 			System.out.println(
@@ -68,7 +79,7 @@ public class Queries {
 			System.out.println();
 			System.out.println(
 					"select count(order_id) as item_count from shopping_cart where order_id = 2 group by order_id;");
-			
+
 			System.out.printf(" %-15s\n", "item_count");
 
 			while (three.next()) {
@@ -128,7 +139,7 @@ public class Queries {
 						seven.getString("stock_amount"));
 			}
 			// JOINS
-			
+
 			System.out.println("===========================================================================================================");
 			System.out.println("Query 8");
 			String query8 = "select distinct product.product_name from product cross join brand where product.type_id > 8";
@@ -138,7 +149,7 @@ public class Queries {
 				String productName = eight.getString(1);
 				System.out.println("Product Name: "+ productName);
 			}
-			
+
 			//LEFT JOIN
 			System.out.println("===========================================================================================================");
 			System.out.println("Query 9");
@@ -149,7 +160,7 @@ public class Queries {
 			System.out.println(query9);
 			System.out.println();
 			ResultSet nine = statement.executeQuery(query9); 
-			
+
 			System.out.printf(" %-15s %-15s %-15s \n", "Name", "Price", "Description");
 			while(nine.next()) {
 				String name = nine.getString(1);
@@ -157,7 +168,7 @@ public class Queries {
 				String description = nine.getString(3);
 				System.out.printf(" %-15s %-15s %-15s \n", name, price, description);
 			}
-			
+
 
 			//Self JOIN
 			System.out.println("===========================================================================================================");
@@ -168,7 +179,7 @@ public class Queries {
 			System.out.println(query10);
 			System.out.println();
 			ResultSet ten = statement.executeQuery(query10); 
-			
+
 			System.out.printf(" %-15s %-15s %-15s \n", "OrderId", "Amount", "Product ID");
 			while(ten.next()) {
 				String name = ten.getString(1);
@@ -176,89 +187,89 @@ public class Queries {
 				String description = ten.getString(3);
 				System.out.printf(" %-15s %-15s %-15s \n", name, price, description);
 			}
-                        
-                        
-                        //More Select queries
-                        System.out.println("===========================================================================================================");
+
+
+			//More Select queries
+			System.out.println("===========================================================================================================");
 			System.out.println("Query 11");
-                        String query11 = "Select user_id, username \n"
-                                + "from user \n"
-                                + "where DOB > '2005-01-01' ;";
-                        System.out.println(query11);
+			String query11 = "Select user_id, username \n"
+					+ "from user \n"
+					+ "where DOB > '2005-01-01' ;";
+			System.out.println(query11);
 			System.out.println();
 			ResultSet eleven = statement.executeQuery(query11);
-                        
-                        System.out.printf(" %-15s %-15s \n", "UserID", "Username");
+
+			System.out.printf(" %-15s %-15s \n", "UserID", "Username");
 			while(eleven.next()) {
 				String userid = eleven.getString(1);
 				String username = eleven.getString(2);
 				System.out.printf(" %-15s %-15s \n", userid, username);
 			}
-			
-                        System.out.println("===========================================================================================================");
+
+			System.out.println("===========================================================================================================");
 			System.out.println("Query 12");
-                        String query12 = "Select name_on_card, username \n"
-                                + "from user_payment join user join credit_debit \n"
-                                + "on user.user_id = user_payment.user_id AND credit_debit.payment_id = user_payment.payment_id;";
-                        System.out.println(query12);
+			String query12 = "Select name_on_card, username \n"
+					+ "from user_payment join user join credit_debit \n"
+					+ "on user.user_id = user_payment.user_id AND credit_debit.payment_id = user_payment.payment_id;";
+			System.out.println(query12);
 			System.out.println();
 			ResultSet twelve = statement.executeQuery(query12);
-                        
-                        System.out.printf(" %-15s %-15s \n", "Name on Card", "Username");
+
+			System.out.printf(" %-15s %-15s \n", "Name on Card", "Username");
 			while(twelve.next()) {
 				String name_on_card = twelve.getString(1);
 				String username = twelve.getString(2);
 				System.out.printf(" %-15s %-15s \n", name_on_card, username);
 			}
-                        
-                        System.out.println("===========================================================================================================");
+
+			System.out.println("===========================================================================================================");
 			System.out.println("Query 13");
-                        String query13 = "Select name_on_card, card_type_name \n"
-                                + "from credit_debit join card_type \n"
-                                + "on credit_debit.card_type_id = card_type.card_type_id ;";
-                        System.out.println(query13);
+			String query13 = "Select name_on_card, card_type_name \n"
+					+ "from credit_debit join card_type \n"
+					+ "on credit_debit.card_type_id = card_type.card_type_id ;";
+			System.out.println(query13);
 			System.out.println();
 			ResultSet thirteen = statement.executeQuery(query13);
-                        
-                        System.out.printf(" %-15s %-15s \n", "Name on Card", "Card Type");
+
+			System.out.printf(" %-15s %-15s \n", "Name on Card", "Card Type");
 			while(thirteen.next()) {
 				String name_on_card = thirteen.getString(1);
 				String card_type = thirteen.getString(2);
 				System.out.printf(" %-15s %-15s \n", name_on_card, card_type);
-				
+
 				System.out.println("===========================================================================================================");
 				System.out.println("Query 14");
-	                        String query14 = "Delete from brand where brand_name = 'PAM';";
-	                        System.out.println(query14);
-	                        String queryDelete = "Select * from brand;";
+				String query14 = "Delete from brand where brand_name = 'PAM';";
+				System.out.println(query14);
+				String queryDelete = "Select * from brand;";
 				System.out.println();
-	                        statement.execute(query14);
+				statement.execute(query14);
 				ResultSet fourteen = statement.executeQuery(queryDelete);
-	                        
-	                        System.out.printf(" %-15s %-15s \n", "brand_id", "brand_name");
+
+				System.out.printf(" %-15s %-15s \n", "brand_id", "brand_name");
 				while(fourteen.next()) {
 					String brandID = fourteen.getString(1);
 					String brandName = fourteen.getString(2);
 					System.out.printf(" %-15s %-15s \n", brandID, brandName);
-			}
-				
+				}
+
 				System.out.println("===========================================================================================================");
 				System.out.println("Query 15");
-	                        String query15 = "Update brand Set brand_name = 'SquareEnix' where brand_id = 3";;
-	                        System.out.println(query15);
-	                        String queryUpdate = "Select * from brand;";
+				String query15 = "Update brand Set brand_name = 'SquareEnix' where brand_id = 3";;
+				System.out.println(query15);
+				String queryUpdate = "Select * from brand;";
 				System.out.println();
-	                        statement.execute(query15);
+				statement.execute(query15);
 				ResultSet fifteen = statement.executeQuery(queryUpdate);
-	                        
-	                        System.out.printf(" %-15s %-15s \n", "brand_id", "brand_name");
+
+				System.out.printf(" %-15s %-15s \n", "brand_id", "brand_name");
 				while(fifteen.next()) {
 					String brandID = fifteen.getString(1);
 					String brandName = fifteen.getString(2);
 					System.out.printf(" %-15s %-15s \n", brandID, brandName);
+				}
 			}
-			}
-                        
+
 		} catch (SQLException i) {
 			// System.out.println("Query for initializing tables found. Please check your
 			// file formatting.");
@@ -266,11 +277,16 @@ public class Queries {
 		}
 	}
 	
+	/**
+	 * Queries every table and prints
+	 * @param table_name table to modify/print
+	 * @param conn the connection to the database
+	 */
 	public static void selectAll(String table_name, Connection conn){
 		Statement stmt = null;
 		String query = "select * from "+ table_name+"; ";
 		int col = 0;
-		
+
 		try {
 			stmt = conn.createStatement();
 			ResultSet re = stmt.executeQuery(query);
@@ -281,20 +297,20 @@ public class Queries {
 				col += 1;
 			}
 			System.out.println("\n--------------------------------------------------------------------");
-			 while(re.next()){
+			while(re.next()){
 
-		         for (int i = 1; i <= col; i++){
-		        	 
-		        	 if(i == col){
-		        		 System.out.print(re.getString(i) + "\n");
-		        	 }else{
-		        		 System.out.print(re.getString(i) +"  |  " );
-		        	 }
-		         }
-		         
-		         
-		      }
-			 System.out.println();
+				for (int i = 1; i <= col; i++){
+
+					if(i == col){
+						System.out.print(re.getString(i) + "\n");
+					}else{
+						System.out.print(re.getString(i) +"  |  " );
+					}
+				}
+
+
+			}
+			System.out.println();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

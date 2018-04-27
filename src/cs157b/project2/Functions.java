@@ -1,5 +1,7 @@
 package cs157b.project2;
-
+/**
+ * User Defined Functions
+ */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -7,11 +9,18 @@ import java.sql.Statement;
 
 public class Functions {
 	private Connection conn;
+	
+	/**
+	 * Creates a function class and connects the database for manipulation
+	 * @param conn the connection to the database
+	 */
 	public Functions (Connection conn){
 		this.conn = conn;
 	}
 	
-	
+	/**
+	 * Performs the function "is_this_order_paid", to check if the order is paid
+	 */
 	public void createFuction_isThisOrderPaid(){
 		Statement stmt =null;
 		
@@ -42,7 +51,10 @@ public class Functions {
 	}
 	
 	
-	
+	/**
+	 * Can be run as an application
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
